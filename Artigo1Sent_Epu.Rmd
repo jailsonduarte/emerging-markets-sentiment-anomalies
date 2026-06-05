@@ -1,0 +1,910 @@
+---
+title: "Anomalias, Sentimento do Investidor e Incertezas em Países Emergentes da América Latina"
+output:
+  bookdown::pdf_document2:
+    latex_engine: xelatex
+    number_sections: true
+    toc: false
+    toc_depth: 4
+  bookdown::word_document2:
+    reference_docx: Templates/FormatacaoArtigo.docx
+    toc_depth: 4
+    number_sections: false
+geometry: left = 3cm, right = 2cm, top = 3cm, bottom = 2cm
+fontsize: 12pt
+subparagraph: yes
+lang: pt-BR
+mainfont: Times New Roman
+indent: True
+graphics: yes
+bibliography: Referencias/referencias.bib
+csl: Referencias/apaSemDoi.csl
+split_bib: yes
+suppress-bibliography: no
+urlcolor: blue
+header-includes:
+  - \usepackage{fontspec}
+  - \usepackage[backend=bibtex, style=authoryear-icomp, sorting=nyt, url=true, natbib=true, hyperref=true, firstinits=true,]{biblatex}
+  - \setmainfont{Times New Roman}
+  - \usepackage{caption}
+  - \captionsetup{textfont={it}, labelfont={bf}, singlelinecheck=false, labelsep=newline}
+  - \usepackage{paralist}
+  - \usepackage{amsmath}
+  - \usepackage{unicode-math}
+  - \usepackage[fontsize=12pt]{scrextend}
+  - \usepackage{indentfirst}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyfoot[R]{\thepage}
+  - \renewcommand{\headrulewidth}{0pt}
+  - \setlength\parindent{1.25cm}
+  - \usepackage{xcolor}
+  - \usepackage[aftersep]{titlesec}
+  - \titleformat{\section}{\normalfont\fontsize{14}{0}\bfseries}{\thesection}{0.3em}{}
+  - \titleformat{\subsection}[block]{\normalfont\fontsize{14}{0}\bfseries}{\thesubsection}{0.3em}{}
+  - \titleformat{\subsubsection}[block]{\normalfont\fontsize{14}{0}\bfseries}{\thesubsubsection}{0.3em}{}
+  - \titlespacing{\section}{0pt}{5mm}{5mm}
+  - \titlespacing{\subsection}{0pt}{5mm}{5mm}
+  - \titlespacing{\subsubsection}{0pt}{5mm}{5mm}
+  - \usepackage[none]{hyphenat}
+  - \fancypagestyle{plain}{\fancyhf{}\fancyfoot[R]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}}
+  - \usepackage{relsize}
+  - \everymath{\scriptstyle}
+  - \usepackage{url}
+  - \usepackage{lscape}
+  - \usepackage{floatrow}
+  - \floatsetup[figure]{capposition=top}
+  - \renewcommand{\tablename}{Tabela}
+---
+
+
+# RESUMO {-}
+
+
+Este estudo analisou a relação entre os retornos das anomalias, o sentimento do investidor e a incerteza da política econômica em mercados emergentes da América Latina, com base em uma amostra de 47 anomalias nos mercados do Brasil, Chile, Colômbia, México e Peru, no período de 2010 a 2022. Utilizando o modelo de cinco fatores de Fama e French [-@fama2015] e regressões com o Sentimento do Investidor Específico das Firmas (SIEF), ortogonalizado pela Incerteza da Política Econômica (EPU), os resultados mostraram baixo desempenho e alta heterogeneidade nos retornos médios das anomalias, mesmo após ajustes. O impacto do SIEF foi significativo apenas no Brasil, principalmente em períodos de pessimismo. Quando componentes relacionados ao EPU foram excluídos do SIEF, observou-se uma reversão no sinal dos retornos, sugerindo que o EPU distorce a percepção dos investidores sobre risco e retorno. Ao propor a ortogonalização do sentimento em relação à incerteza, este estudo contribui para uma compreensão mais precisa da influência do sentimento na precificação das anomalias nos mercados emergentes.
+
+
+
+
+**Palavras-chave**: Anomalias financeiras; Sentimento do Investidor; Incerteza política; Mercados emergentes.
+
+# INTRODUÇÃO {#introducao}
+
+Os mercados emergentes, apesar de apresentarem crescimento nos últimos anos, continuam marcados por instabilidades estruturais frequentes, elevada volatilidade, incertezas institucionais, baixo PIB per capita e menor desenvolvimento dos mercados financeiros [@bekaert2023]. Esses mercados enfrentam ainda desafios adicionais para a pesquisa em Finanças, como a qualidade limitada dos dados, instabilidade política e fragilidade nos fluxos internacionais de capital [@leite2018]. Essas particularidades exigem a adaptação de modelos e teorias financeiras às realidades específicas desses mercados [@bekaert2003].
+
+Um dos principais obstáculos é a ausência de evidências consistentes sobre a eficiência dos mercados. Segundo Kearney [-@kearney2012], os mercados emergentes operam com eficiência imperfeita, sendo menos informacionalmente eficientes, o que pode levar os preços dos ativos a se desviarem de seus valores fundamentais. Evidências contrárias à Hipótese dos Mercados Eficientes (HME) favorecem o surgimento de anomalias [@chen2023], que se manifestam como padrões nos retornos médios das ações que desafiam os modelos clássicos de precificação de ativos. Nesse sentido, Zaremba et al. [-@zaremba2019] observam que os mercados emergentes, são frequentemente vistos como reservatórios de anomalias, oferecendo aos investidores a possibilidade de retornos anormais mais elevados.
+
+Duas principais vertentes teóricas buscam explicar a existência dessas anomalias, com base em distintas concepções sobre a racionalidade dos investidores. As explicações fundamentadas em risco assumem que os investidores são racionais e que os lucros anormais constituem compensações pelo risco [@fama1996]. Por outro lado, as abordagens baseadas em finanças comportamentais sugerem que vieses cognitivos nas decisões de investimento fazem com que os preços se desviem de seus valores fundamentais [@baker2006].
+
+Nesse contexto, Baker e Wurgler [-@baker2007] destacam que os investidores, influenciados por emoções e expectativas subjetivas, frequentemente tomam decisões que não se baseiam em uma análise objetiva dos dados disponíveis. Esse comportamento está relacionado ao chamado sentimento do investidor, entendido como um estado de otimismo ou pessimismo excessivo que afeta a capacidade de julgamento dos agentes econômicos [@antoniou2013]. Do ponto de vista empírico, diversas evidências sugerem que esse sentimento possui capacidade preditiva sobre os retornos anormais, sendo seu efeito especialmente relevante em períodos marcados por maior otimismo no mercado [@jacobs2015].
+
+O sentimento do investidor pode refletir tanto as informações disponíveis no mercado quanto o nível de incerteza relacionado à condução da política econômica [@yao2020]. Conforme Li et al. [-@li2016], a ausência de consenso ou mudanças frequentes nas políticas econômicas implementadas pelos formuladores governamentais gera um ambiente de elevada incerteza econômica, capaz de transmitir sinais relevantes ao mercado e afetar diretamente o sentimento do investidor, promovendo oscilações nos preços dos ativos [@yao2020].
+
+Algumas evidências [@gu2021] indicam que a Incerteza da Política Econômica (EPU) tem exercido forte influência sobre os mercados financeiros, elevando a volatilidade e dificultando a obtenção de retornos anormais por meio de estratégias tradicionais de investimento [@liu2015]. Essa influência tende a ser ainda mais intensa durante períodos de recessão, nos quais os investidores respondem menos a novas informações, acentuando as ineficiências na precificação dos ativos [@paule-vianez2021].
+
+Há evidências de que o retorno *cross-sectional* das anomalias pode ser influenciado pelo sentimento do investidor [@xavier2017; @stambaugh2012], o qual, por sua vez, reflete tanto as condições do mercado quanto os rumos da política econômica [@yao2020]. Diante disso, surge a seguinte questão de pesquisa: **qual é a relação entre as anomalias do mercado de capitais, o sentimento do investidor e a incerteza da política econômica nos países emergentes da América Latina?**
+
+Diante dessa problemática, o objetivo desta pesquisa foi analisar a relação entre os retornos das anomalias, o sentimento do investidor e a incerteza da política econômica nos mercados emergentes da América Latina. A relevância do estudo reside no fato de que esses mercados são frequentemente apontados como fontes potenciais de anomalias [@zaremba2019], as quais podem ser influenciadas por sentimentos excessivamente otimistas e amplificadas por choques de incerteza política [@yao2020]. 
+
+Os resultados revelaram uma forte heterogeneidade entre os países da América Latina, com prevalência de retornos negativos ou estatisticamente irrelevantes nas anomalias investigadas. Apenas 40% das 47 anomalias analisadas foram significativas no Brasil, 32% no Chile, 21% na Colômbia e no México, e 30% no Peru. Mesmo após ajuste pelo modelo FF5, as anomalias não geraram retornos anormais positivos e consistentes entre 2010 e 2022, com alfas negativos no Brasil e no Chile. A inclusão do sentimento do investidor (SIEF) no modelo mostrou impacto significativo apenas no Brasil, especialmente em períodos de pessimismo, o que reduziu ainda mais a rentabilidade das anomalias. Nos outros países, o SIEF não teve efeito relevante. Quando a incerteza da política econômica (EPU) foi considerada, os retornos anormais negativos associados ao pessimismo se tornaram positivos e significativos na maioria dos países, confirmando a hipótese de que a EPU amplifica o impacto do sentimento. 
+
+Dessa forma, esta pesquisa contribui com a literatura de precificação de ativos ao propor que o índice de sentimento do investidor seja ajustado pela incerteza da política econômica. As evidências apresentadas expandem e complementam os estudos de Stambaugh et al. [-@stambaugh2012], Xavier e Machado [-@xavier2017] e Machado e Medeiros [-@machado2014], os quais abordaram a relação entre sentimento do investidor e anomalias, mas não consideraram a modulação desse sentimento pela incerteza econômica.
+
+Do ponto de vista prático, os resultados obtidos neste estudo podem fornecer subsídios para investidores institucionais, gestores de fundos e analistas, ao aprimorar a detecção de *mispricings* e a identificação de oportunidades de arbitragem. Em contextos de elevada incerteza, nos quais os investidores tendem a apresentar comportamento mais irracional, sujeito a vieses cognitivos [@barberis1998], o uso do EPU como variável de ajuste pode aumentar a robustez da análise ao captar não apenas o sentimento predominante, mas também o nível de confiança nas políticas econômicas. Com isso, espera-se contribuir para a melhoria da gestão de risco e da performance de portfólios em ambientes de maior volatilidade [@pastor2012].
+
+Além desta introdução, a segunda seção apresenta a fundamentação teórica e a construção da hipótese de pesquisa. Na terceira seção, discute-se a metodologia, com a definição das variáveis e os procedimentos de estimação. A quarta seção trata da apresentação e discussão dos resultados obtidos. Por fim, a quinta seção traz as considerações finais, destacando as contribuições, limitações e sugestões para estudos futuros.
+
+
+# REVISÃO DA LITERATURA {#RevLiteratura}
+
+As anomalias do mercado, ou seja, padrões de retorno que não são explicados pelos modelos tradicionais de precificação de ativos [@fama1993], despertaram o interesse dos pesquisadores em entender melhor os fatores que influenciam os preços das ações. A primeira grande tentativa de explicação do comportamento dos ativos foi a introdução do modelo de múltiplos fatores, que expandiu a análise do risco sistemático além do mercado. Entre as contribuições mais notáveis, Fama e French [-@fama1993] desenvolveram o modelo de três fatores (FF3), incorporando os fatores *Small Minus Big* (SMB) e *High Minus Low* (HML) para capturar anomalias relacionadas ao tamanho das empresas e ao índice *Book-to-Market* (BM). Posteriormente, Carhart [-@carhart1997] adicionou o fator momento (WML), criando o modelo de quatro fatores (C4). Fama e French [-@fama2015] ampliaram ainda mais a abordagem ao incluir os fatores de lucratividade *Robust Minus Weak* (RMW) e investimento, *Conservative Minus Aggressive* (CMA), resultando no modelo de cinco fatores (FF5).
+
+Esses modelos de precificação serviram de base para pesquisadores identificaram centenas de anomalias no mercado financeiro [@hou2020], capazes de prever o retorno futuro das ações. Segundo Khan [-@khan2012], a idenficiação de anomalias considera a significância econômica e estatística do sinal *mispricing*, que se refere à diferença entre o preço de mercado do ativo e seu valor fundamental, determinado com base nos fundamentos da empresa, sob a premissa de que todos os participantes do mercado são investidores racionais e perfeitamente informados. 
+
+Shleifer e Summers [-@shleifer1990] destacam que, além dos racionais, o mercado também inclui os *noise traders*, cujas estratégias de negociação podem ser influenciadas por vieses sistemáticos, fazendo com variações na demanda por títulos reflitam crenças não fundamentadas nas informações disponíveis. Assim, como muitos investidores são influenciados por crenças excessivamente otimistas ou pessimistas, os mercados financeiros estão sujeitos a negociações não sofisticadas, que podem distorcer os preços dos ativos [@antoniou2016]. Esse fenômeno está associado ao sentimento do investidor que, segundo Baker e Wurgler [-@baker2006], corresponde a crenças sobre fluxos de caixa futuros e riscos de investimento que não são justificadas objetivamente pelos fatos. 
+
+Apostar contra investidores guiados pelo sentimento pode ser arriscado e limitar a atuação dos agentes racionais na correção de preços [@shleifer1990; @baker2007]. Com base nisso, vários estudos investigaram como o sentimento afeta os retornos de carteiras baseadas em anomalias [@stambaugh2012; @xavier2017; @han2022a; @cheema2024]. Stambaugh et al. [-@stambaugh2012] mostraram que estratégias long-short são mais lucrativas após otimismo elevado, enquanto estratégias long mantêm retornos estáveis. Resultados semelhantes foram observados por Zhang et al. [-@zhang2023] na Austrália e por Salur e Ekinc [-@salur2023] na Europa, Japão e mercados globais.
+
+Han e Shi [-@han2022a] demonstraram que, na China, o sentimento do investidor impulsiona os retornos das anomalias durante períodos de otimismo. De forma semelhante, Cheema e Fianto [-@cheema2024] identificaram que, na Malásia e na Indonésia, estratégias *long* e *short* baseadas em anomalias apresentam retornos menores após períodos de alto sentimento, sugerindo uma correção da sobrevalorização. No Brasil, Xavier e Machado [-@xavier2017] constataram que portfólios *long-short* baseados em anomalias apresentaram poder explicativo parcial no CAPM, mas perderam significância em modelos multifatoriais. 
+
+Embora o sentimento do investidor afete os retornos de estratégias baseadas em anomalias, outros fatores também influenciam esse processo. Indicadores macroeconômicos, eventos políticos, incerteza econômica e políticas nacionais impactam o sentimento e as decisões de investimento, gerando oscilações nos preços dos ativos [@yao2020]. Birru e Young [-@birru2022] mostram que, em contextos de alta incerteza, um desvio padrão no sentimento pode multiplicar sua capacidade preditiva dos retornos entre duas e quatro vezes. Essa evidência é apoiada por estudos que apontam a influência da incerteza política nas decisões econômicas [@gu2021].
+
+Pástor e Veronesi [-@pastor2012; -@pastor_political_2013] explicam que a incerteza política refere-se às escolhas futuras de políticas governamentais que alteram o ambiente econômico. Baker, Bloom e Davis [-@baker2016] quantificaram o nível de incerteza na política econômica por meio do índice *Economic Policy Uncertainty* (EPU), contabilizando a frequência de palavras-chave relevantes sobre incerteza econômica e política nos arquivos de jornais, para determinar a magnitude da incerteza de um país sob a perspectiva das políticas econômicas. 
+
+O EPU reflete o grau de incerteza nas políticas regulatórias, monetárias e fiscais de um país [@phan2018] e afeta significativamente os retornos dos mercados financeiros [@gu2021]. Seu impacto é geralmente negativo e intensifica substancialmente a volatilidade dos mercados de ações, tornando difícil para os investidores obterem retornos excedentes em seus investimentos [@liu2015]. De acordo com Berardi [-@berardi2022], os sentimentos dos investidores são desencadeados por choques exógenos nas crenças, mas se intensificam pela incerteza gerada em situações de informações imperfeitas. Esses sentimentos provocam desvios nas expectativas dos investidores em relação às estimativas ótimas baseadas nessas informações. Tais desvios dependem da magnitude da incerteza gerada: quanto maior a incerteza, maior o impacto das atitudes psicológicas nas expectativas. 
+
+Wu [-@wu2022] testou essa proposição no mercado chinês e constatou que o aumento da incerteza econômica, impulsionado por ruídos, reduz significativamente a sincronicidade dos preços das ações. Além disso, a incerteza intensifica o sentimento do investidor, que atua como mediador, agravando ainda mais essa redução. Esses achados reforçam a perspectiva de Yao e Li [-@yao2020], segundo a qual políticas econômicas nacionais transmitem informações que moldam o sentimento, influenciam decisões de investimento e provocam oscilações nos preços dos ativos. Com base nisso, formula-se a seguinte hipótese de pesquisa:
+
+**H1: A incerteza de política econômica amplifica o impacto do sentimento do investidor no retorno das anomalias nos países emergentes da América Latina.**
+
+
+A hipótese justifica-se sob a premissa de que os modelos tradicionais de precificação de ativos supõem investidores racionais e que os retornos esperados refletem unicamente fatores de risco sistemáticos. No entanto, esses modelos frequentemente falham em explicar certos padrões sistemáticos de retorno, que persistem mesmo após o ajuste por fatores de risco [@mclean2016]. Assim, literatura contemporânea tem enfatizado o papel do sentimento, quando descolado dos fundamentos, pode levar a precificações equivocadas e, portanto, ao surgimento de retornos anormais [@zhang2023]. Esse efeito é intensificado quando se considera o ambiente de incerteza econômica, que agrava os vieses comportamentais e reduz a eficácia da arbitragem [@birru2022].
+
+A hipótese H1 sustenta que, nos países emergentes da América Latina, a incerteza de política econômica amplifica o efeito do sentimento do investidor sobre os retornos das anomalias. Em economias marcadas por maior instabilidade institucional e vulnerabilidade a choques políticos, espera-se que os impactos comportamentais se intensifiquem em contextos de elevada incerteza econômica. O teste dessa hipótese oferece uma contribuição teórica relevante ao integrar, em um mesmo modelo explicativo, determinantes comportamentais e institucionais das anomalias, conforme argumentado por Zhang [-@zhang2015], Birru e Wang [-@birru2022], Yao et al. [-@yao2020] e Berardi [-@berardi2022].
+
+
+# PROCEDIMENTOS METODOLÓGICOS
+
+Os dados econômico-financeiros, contábil e de mercado foram coletados da plataforma *London Stock Exchange Group* (LSEG) *Data & Analytics*® via *Refinitiv Eikon API*. As informações contábeis das empresas listadas nas bolsas de valores do Brasil (161 ações), Chile (105 ações), Colômbia (15 ações), México (89 ações) e Peru (51 ações) foram extraídas das demonstrações financeiras anuais consolidadas, com fechamento em 31 de dezembro, no período de 1º de janeiro de 2010 a 31 de dezembro de 2022. A escolha desses países fundamentou-se no *MSCI Emerging Markets Indexes*, da *Morgan Stanley Capital International* (MSCI), que considera o desenvolvimento econômico, tamanho, liquidez e acessibilidade dos mercados, cobrindo cerca de 85% das ações listadas nesses países [@mcsi-emergingmarketsindexes]. 
+
+## Variáveis e Construção das Carteiras
+
+
+Seguindo Han e Shi [-@han2022a], foram selecionadas 47 anomalias das 97 listadas por McLean e Pontiff [-@mclean2016] considerando a disponibilidade de dados e capacidade de implementação nos países emergentes da América Latina. Além disso, foram excluídas as anomalias cuja construção dependeria de fatores subjetivos, como previsões de analistas. Adicionalmente, não foi considerado um escopo maior de anomalias, como proposto em Hou et al. [-@hou2020], porque muitas são variações de uma mesma anomalia, com alterações no período de formação ou de manutenção das carteiras. 
+
+A formação das carteiras, a frequência de rebalanceamento e o período de manutenção seguiram a literatura [@hou2020]. Em junho de cada ano $t$, as ações foram ordenadas por valor e distribuiídas em três carteiras por tercis: *Low* ($0<p\le30\%$),  *Neutro* ($30\%<p\le70\%$) e *Hight* ($70\%<p\le 100\%$). Estratégias *long-short* foram então construídas, com posição comprada (*Long*) no tercil superior e vendida (*Short*) no inferior. Os retornos médios mensais, ponderados por valor, foram calculados de julho do ano $t$ a junho do ano $t+1$, com rebalanceamento anual em junho. 
+
+## Sentimento do Investidor Específico da Firma \label{sentimento}
+
+O Sentimento do Investidor Específico da Firma (SIEF) foi construído com base em Seok et al. [-@seok2019]. Optou-se por não utilizar índices agregados, pois algumas variáveis, como o desconto de fundos fechados e a oferta pública inicial, não estão disponíveis em muitos mercados emergentes [@seok2019]. Além disso, medidas agregadas podem não capturar adequadamente as características observáveis no nível da firma [@seok2019]. As proxies utilizadas para a construção do SIEF estão apresentadas na Tabela \@ref(tab:tabVarSief).
+
+
+```{r tabVarSief, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 0.8, ft.align = "left", escape = F,  cache=TRUE, cache.path="cache/"}
+# Carregar o pacote necessário
+library(dplyr)
+library(flextable)
+library(officer)
+# Criando os dados da tabela
+dados <- data.frame(
+  Índice = c("RSI", "PLI", "ATR", "LTV"),
+  Nome = c(
+    "Relative Strength Index: mede a pressão de compra ou venda no preço da ação.",
+    "Psychological Line Index: indicador das condições de mercado que captura o número de movimentos ascendentes e descendentes no curto prazo.",
+    "Adjusted Turnover Rat: reflete a liquidez do mercado conforme o sentimento do investidor.",
+    "Logarithm of Trading Volume:  medida da liquidez que revela a opnião do investidor sobre o mercado de ações"
+  ),
+  Formula = c(
+    "RSI_{i,t} = \\Big[\\frac{RS_{i,t}}{1+RS_{i,t}} \\Big] \\times 100, \\textrm{ com } RS_{i,t} = \\frac{\\sum_{k=0}^{13} \\max(P_{i,t-k}-P_{i,t-k-1},0)}{\\sum_{k=0}^{13} \\max(P_{i,t-k-1}-P_{i,t-k},0)}",
+    
+    "PLI_{i,t} = \\left[ \\sum_{k=0}^{11} \\left\\{ \\frac{\\max(P_{i,t-k}-P_{i,t-k-1}, 0)}{P_{i,t-k}-P_{i,t-k-1}} \\right\\}/12 \\right] \\times 100",
+    
+    "ATR_{i,t} = \\frac{V_{i,t}}{NAC_{i,t}} \\times \\frac{R_{i,t}}{R_{i,t}} \\text{, em que } R_{i,t} = \\frac{P_{i,t}}{P_{i,t-1}}",
+    
+    "LTV_{i,t} = \\ln (V_{i,t})"
+  )
+)
+
+# Ajustando a Formula para o flextable
+ft <- flextable(dados) %>%
+  theme_apa() %>%
+  set_header_labels(Índice = "Índice", Nome = "Nome", Formula = "Formula") %>%
+  #compose(j = "Formula", value = as_paragraph(as_equation(Formula))) %>%
+  mk_par(i = 1, j = 3, part = "body", as_paragraph(as_equation("RSI_{i,t} = \\Big[\\frac{RS_{i,t}}{1+RS_{i,t}} \\Big] \\times 100, \\textrm{ com } RS_{i,t} = \\frac{\\sum_{k=0}^{13} \\max(P_{i,t-k}-P_{i,t-k-1},0)}{\\sum_{k=0}^{13} \\max(P_{i,t-k-1}-P_{i,t-k},0)}"))) %>%
+  mk_par(i = 2, j = 3, part = "body", as_paragraph(as_equation("PLI_{i,t} = \\left[ \\sum_{k=0}^{11} \\left\\{ \\frac{\\max(P_{i,t-k}-P_{i,t-k-1}, 0)}{P_{i,t-k}-P_{i,t-k-1}} \\right\\}/12 \\right] \\times 100"))) %>%
+  mk_par(i = 3, j = 3, part = "body", as_paragraph(as_equation("ATR_{i,t} = \\frac{V_{i,t}}{NAC_{i,t}} \\times \\frac{R_{i,t}}{R_{i,t}} \\text{, em que } R_{i,t} = \\frac{P_{i,t}}{P_{i,t-1}}"))) %>%
+  mk_par(i = 4, j = 3, part = "body", as_paragraph(as_equation("LTV_{i,t} = \\ln (V_{i,t})"))) %>%
+  
+  #set_table_properties(width = 1, layout = "autofit") %>% 
+  #autofit() %>% 
+  width(j = 1, width = 0.7) %>% 
+  width(j = 2, width = 3) %>%
+  width(j = 3, width = 2.5) %>%
+  bold(bold = TRUE, part = "header") %>% 
+  set_caption("Proxies para Sentimento do Investidor em Nível de Firma") %>%
+  align(align = "center", part = "header") %>%
+  align(align = "left", part = "body") %>%
+  align(j=3, align = "center", part = "body") %>%
+  add_footer_lines(values = as_paragraph(
+    as_b("Legenda:"),
+    as_chunk(" Esta tabela apresenta os métodos de estimação das proxies para sentimento do investidor específico da firma. ", 
+             props = fp_text_default(font.size = 10, font.family = "Times New Roman")),  
+    as_equation("RSI_{i,t}"),
+    as_chunk(" é a força relativa dos preços de fechamento ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("P_{i,t}"),
+    as_chunk(" da ação i no período t. ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+
+    as_equation("PLI_{i,t}"),
+    as_chunk(" é o Índice de Linha Psicológica e indica as condições e o momento do mercado. ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("max(P_{i,t-k}-P_{i,t-k-1}, \\ 0)"),
+    as_chunk(" mede a diferença entre os preços de fechamento nos períodos t-k e t-k-1 em uma janela de 12 dias. ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+
+    as_equation("ATR_{i,t}"),
+    as_chunk(" é a Taxa de Rotatividade Ajustada; ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("V_{i,t}"),
+    as_chunk(" é o volume negociado; ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("NAC_{i,t}"),
+    as_chunk(" é o número de ações em circulação; ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("R_{i,t}= P_{i,t}/P_{i,t-1}"),
+    as_chunk(" representa o retorno da ação; ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+    as_equation("|R_{i,t}|"),
+    as_chunk(" é o módulo desse retorno. ",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman")),
+
+    as_chunk("O LTV é o logaritmo do volume de negociação no tempo t.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>%
+
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+
+# Exibindo a tabela
+ft
+```
+
+Seguindo Kim et al. [-@kim2021], utilizou-se a primeira componente principal ($F_{i,j}$) de cada proxy $j$ em relação à ação $i$, conforme a Equação \@ref(eq:pc1). Essa abordagem permite sintetizar a informação contida em múltiplas variáveis correlacionadas, reduzindo a dimensionalidade dos dados e capturando a principal fonte de variação associada ao sentimento específico da firma.
+
+\begin{equation}
+   \begin{aligned}
+    CS_{i,t} = F_{i,RSI} \cdot RSI_{i,t} + F_{i,PLI} \cdot PLI_{i,t} + F_{i,ATR} \cdot ATR_{i,t} + F_{i,LTV} \cdot LTV_{i,t}  (\#eq:pc1)
+   \end{aligned}
+\end{equation}
+
+
+Nessa equação, $CS_{i,t}$ é o fator de sentimento comum ($CS_{i,t}$), definido como a soma ponderada das *proxies* para o sentimento do investidor, que são: $RSI_{i,t}$ (*Relative Strength Index*), $PLI_{i,t}$ (*Psychological Line Index*), $ATR_{i,t}$ (*Adjusted Turnover Rate*) e $LTV_{i,t}$ (*Logarithm of Trading Volume*). As cargas fatoriais associadas a cada *proxy* são representadas por $F_{i,RSI}$, $F_{i,PLI}$, $F_{i,ATR}$ e $F_{i,LTV}$. 
+
+Seok et al. [-@seok2019] destacam que essas *proxies* precisam ser ortogonalizadas para mitigar a dependência entre as variáveis. Assim, o fator de sentimento comum foi regredido contra o excesso de retorno, como apresentadas na Equação \@ref(eq:ortog). 
+
+
+\begin{equation}
+   \begin{aligned}
+    CS_{i,t}= b_0 + b_1 MKT_{t} + \varepsilon_{k,it}  (\#eq:ortog)
+   \end{aligned}
+\end{equation}
+
+Em que $CS_{i,t}$ é o fator de sentimento comum; $MKT_{t} = R_{m,t} - R_{f,t}$ é o excesso de retorno de mercado, com $R_{m,t}$ correspondendo ao retorno do mercado no mês $t$ e $R_{f,t}$ a taxa básica de juros da economia de cada país utilizada como *proxy* para a taxa livre de risco no mês $t$; $\varepsilon_{k,it}$ são os resíduos da regressão,  empregados como *proxy* para o sentimento do investidor específico da firma ortogonalizado que, doravante, será denominado de SIEF.
+
+Adicionalmente, o SIEF foi ortogonalizado contra o excesso de retorno do mercado e contra a Incerteza na Política Econômica (EPU). Segundo Yao e Li, 2020 [@yao2020], o sentimento do investidor pode também refletir o nível de incerteza relacionado à condução da política econômica. Para verificar essa assertiva, fez-se o teste de causalidade Granger [-@granger1969] entre o EPU e o SIEF sob a hipótese de que informações passadas sobre o EPU podem prever o comportamento futuro do sentimento do investidor. Portanto, considerou-se a hipótese nula de que o $EPU$ no período $t-1$ não causa, no sentido de Granger, o sentimento do investidor ($SIEF_t$) no tempo $t$, conforme evidenciado na Tabela \@ref(tab:tabCausa).
+
+```{r tabCausa, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F, cache=TRUE}
+
+# Carregando o pacote
+library(flextable)
+library(tidyverse)
+
+dfCausa<- readRDS("DataBase/Data/Outputs/Tables/tab.causalityResult.rds")|> 
+   mutate(across(where(is.numeric), ~ format(round(.x, 3), nsmall = 3)))
+
+df <- head(dfCausa, 6)
+
+nomes <- c(
+  "Ftest",
+  "GCI",
+  "pValor",
+  "Ftest",
+  "GCI",
+  "pValor"
+)
+
+df <- cbind(" " = nomes, df)
+
+# inserir na posição 1 ("Painel A: Causalidade Linear")
+linha_inicial <- data.frame(matrix(NA, nrow = 1, ncol = ncol(df)))
+names(linha_inicial) <- names(df)
+linha_inicial[1, 1] <- "Painel A: EPU Granger-causa SIEF"
+
+# Inserir na primeira posição
+df <- rbind(
+  linha_inicial,
+  df
+)
+
+
+# criar a linha "SIEF Granger-causa EPU" para inserir depois da linha 5 (que era linha 4 antes)
+nova_linha2 <- data.frame(matrix(NA, nrow = 1, ncol = ncol(df)))
+names(nova_linha2) <- names(df)
+nova_linha2[1, 1] <- "Painel B: SIEF Granger-causa EPU"
+
+df <- rbind(
+  df[1:4, ],
+  nova_linha2,
+  df[5:nrow(df), ]
+)
+
+
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplicar a função em todo o dataframe
+df[, -1] <- lapply(df[, -1], function(col) sapply(col, substituiPontoPorVirgula))
+
+
+
+
+flextable(df) %>%
+  autofit() %>%
+  theme_apa() %>%
+  fontsize(size = 10) %>%
+  align(align = "center", part = "all") %>%
+  bold(part = "header") %>%
+  set_caption("Teste de Causalidade de Granger") %>% 
+  merge_h_range(i = 1, j1 = 1, j2 = 6, part = "body") %>% 
+  merge_h_range(i = 5, j1 = 1, j2 = 6, part = "body") %>% 
+  align(i = 1, j = NULL, align = "center", part = "body") %>%
+  align(i = 5, j = NULL, align = "center", part = "body") %>% 
+  add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta o teste de causalidade Granger entre o EPU e o SIEF para os países Brasil, Chile, Colômbia, México e Perú. No Painel A, considera-se que o EPU ajuda a prever o SIEF com base em informações passadas. No Painel B, o SIEF ajuda a prever EPU com base em informações passada. Ftest é o valor do teste. GCI é o índice de causalidade de Granger. Pvalor é o Valor-p associado ao F-test." , props = fp_text_default(font.size = 10, font.family = "Times New Roman")))) %>%
+
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  align(i = NULL, j = 1, align = "left", part = "footer") %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+
+
+
+```
+
+
+Os testes de causalidade de Granger sugerem que o EPU antecede o SIEF, mas não o contrário. Em todos os países analisados, os p-valores para a hipótese de que o SIEF Granger-causa o EPU são superiores a 5%, indicando ausência de evidência estatística nessa direção. Já na direção oposta, os testes mostram p-valores inferiores a 5% no Brasil, Chile, México e Peru, confirmando causalidade do EPU para o SIEF nesses mercados. Na Colômbia, o p-valor é inferior a 10%, apontando uma relação marginalmente significativa. Esses resultados indicam que choques de incerteza econômica tendem a antecipar mudanças no sentimento do investidor específico da firma. Portanto, com base nessa constatação, o SIEF foi ortogonalizado conforme Equação \@ref(eq:ortogCausa).
+
+\begin{equation}
+   \begin{aligned}
+    CS_{i,t}= b_0 + b_1 MKT_{t} + b_2 EPU_{t-1} + \varepsilon_{k,it}  (\#eq:ortogCausa)
+   \end{aligned}
+\end{equation}
+
+
+
+Em que $CS_{i,t}$ representa o fator de sentimento comum; $MKT_t = R_{m,t} - R_{f,t}$ é o excesso de retorno de mercado, com $R_{m,t}$ sendo o retorno do mercado e $R_{f,t}$ a taxa livre de risco local; $EPU_{t-1}$ é o índice de incerteza econômica defasado; e $\varepsilon_{k,it}$ são os resíduos usados como proxy do sentimento específico da firma (SIEF), obtidos de forma ortogonalizada. O índice de Incerteza da Política Econômica (EPU) segue Baker et al. [-@baker2016], com exceção do Peru, onde utiliza-se Andres-Escayola et al. [-@andres-escayola].
+
+
+## Testes Econométrico dos Retornos das Anomalias
+
+Após a definição das variáveis descrevem-se os procedimentos estatísticos e econométricos para investigar a existência de retornos anormais. Foram apresentados o retorno médio mensal, número de anomalias estatisticamente significativas para o conjunto de todas as 47 anomalias e por grupos classificados como Valor *versus* Crescimento, Investimento, Rentabilidade, Atritos Comerciais e Momento. Em seguida, a existência das anomalias foi testada com base no modelo de Cinco Fatores (FF5) de Fama e French [-@fama2015]. Esse modelo foi utilizado em função de sua melhor capacidade de explicar variações no retorno médio [@fama2015] e por seu poder explicativo em mercados internacionais, como América Latina [@zaremba2017; @carvalho2021]. A Equação \@ref(eq:FF5) descreve o modelo FF5.
+
+
+\begin{equation}
+   \begin{aligned}
+     E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta} [E(Rm_{t}) - Rf_{t}] + \hat{s} (SMB)_{t} + \hat{h} (HML)_{t} + \hat{r} (RMW)_{t} + \hat{c} (CMA)_{t} + \hat{\epsilon}_{t}  (\#eq:FF5)
+   \end{aligned}
+\end{equation}
+
+<!--
+\begin{equation}
+   \begin{aligned}
+     E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta} [E(Rm_{t}) - Rf_{t}] + \hat{\epsilon}_{t} (\#eq:CAPM)
+   \end{aligned}
+\end{equation}
+
+\begin{equation}
+   \begin{aligned}
+    E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta} [E(Rm_{t}) - Rf_{t}] + \hat{s} (SMB)_{t} + \hat{h}(HML)_{t} + \hat{\epsilon}_{t} (\#eq:FF3)
+   \end{aligned}
+\end{equation}
+
+\begin{equation}
+   \begin{aligned}
+     E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta} [E(Rm_{t}) - Rf_{t}] + \hat{s}(SMB)_{t} + \hat{h} (HML)_{t} + \hat{w} (WML)_{t} + \hat{\epsilon}_{t} (\#eq:C4)
+   \end{aligned}
+\end{equation}
+
+
+
+
+\begin{equation}
+   \begin{aligned}
+     E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta}_{MKT}^{i} R_{MKT_t} + \hat{\beta}_{ME}^{i} R_{ME_t} + \hat{\beta}_{IPA}^{i} R_{IPA_t} + \hat{\beta}_{ROE}^{i} R_{ROE_t} + \hat{\epsilon}_{t}  (\#eq:QF)
+   \end{aligned}
+\end{equation}
+
+\begin{equation} 
+  \begin{aligned}
+  E[R_{c,t}] - Rf_{t} = \hat{\alpha} + \hat{\beta} [E(Rm_{t}) - Rf_{t}] + \hat{s} (SMB)_{t} + \hat{h}(HML)_{t} + \hat{w}(WML)_{t} + \hat{l} (LMH)_{t} + \hat{\epsilon}_{t}  (\#eq:KP) 
+  \end{aligned}
+\end{equation}
+
+--> 
+
+Nessa equação, $E[R_{c,t}]$ é o retorno esperado da carteira $c$ no mês $t$; $Rf_{t}$ é a taxa livre de risco; $E(Rm_{t}) - Rf_{t}$ é o prêmio de risco do mercado, com $Rm_{t}$ estimando seu retorno; $SMB_t$, $HML_t$, $RMW_t$ e $CMA_t$  são os fatores tamanho, *book-to-market*, lucratividade e investimento. Os coeficientes estimados das regressões são representados por $\hat{\alpha}$, $\hat{\beta}$, $\hat{s}$, $\hat{h}$, $\hat{r}$ e $\hat{c}$. $\hat{\epsilon}_{t}$ é o termo de erro aleatório.  
+
+O fator MKT foi calculado como o excesso de retorno do mercado em relação à taxa livre de risco, definida pela taxa básica de juros de cada país. Os demais fatores do modelo FF5 foram construídos a partir de características das empresas: Tamanho (valor de mercado), *Book-to-Market* (logaritmo do valor contábil sobre o valor de mercado), rentabilidade (lucro operacional sobre patrimônio líquido) e investimento (crescimento dos ativos totais em $t-1$). A formação dos fatores seguiu a abordagem $2 \times 3$, com cortes baseados na mediana de tamanho e nos tercis de *book-to-market*, gerando seis carteiras (SG, SN, SV, BG, BN e BV). Os retornos mensais ponderados por valor foram usados para construir os fatores: SMB (Pequenas menos Grandes), HML (Valor menos Crescimento) e os demais, seguindo metodologia similar conforme a direção esperada de impacto sobre os retornos.
+
+Por fim, o desempenho das anomalias foi estimado contra os retornos dos fatores utilizando o modelo FF5 para obter os coeficientes dos fatores em cada país, conforme Fama e French [-@fama2012] e Cakici et al. [-@cakici2013]. Os procedimentos incluíram o cálculo dos valores absolutos dos interceptos, dos erros-padrão dos interceptos com base no método de Newey e West [-@newey1987], e dos $R^2$ das regressões.
+
+
+## Retorno das Anomalias e Sentimento do Investidor {#RetAnomSief}
+
+Após identificar as anomalias de retorno *cross-sectional* nos países emergentes da América Latina, analisou-se a influência do sentimento do investidor sobre o retorno dessas anomalias, como observado por Stambaugh et al. [-@stambaugh2012] e Xavier e Machado [-@xavier2017]. A hipótese investigada foi que a incerteza de política econômica amplifica o impacto do sentimento do investidor nos retornos de anomalias de mercado em países emergentes da América Latina. Foram realizadas regressões com o retorno das anomalias como variável dependente, utilizando o sentimento do investidor como variável explicativa e incluindo os fatores do modelo FF5 como variáveis de controle de risco, conforme detalhado na Equação \@ref(eq:sentAnom).
+
+
+\begin{equation}
+   \begin{aligned}
+     R_{i,t} = \hat{\alpha}_{i} + \hat{\beta}_{i} SIEF_{i,t} +  \hat{\gamma}_{i} FFT_{i, t} + \hat{\epsilon}_{i,t}  (\#eq:sentAnom)
+   \end{aligned}
+\end{equation}
+
+
+Em que $R_{i,t}= R_{a,t}- R_{f,t}$ é o retorno *long-short* da anomalia $i$ no mês $t$; $SIEF_{i,t}$ é o sentimento do investidor específico da firma; $FFT_{i,t}$ são os retornos do modelo FF5 apresentado na Equação \@ref(eq:FF5); $\hat{\alpha}_{i}$, $\hat{\beta}_{i}$ e $\hat{\gamma}_{i}$ são os parâmetros da regressão e $\hat{\epsilon}_{i,t}$ é o termo de erro aleatório.
+
+Com esse modelo, espera-se que os retornos das anomalias sejam maiores após períodos de sentimento otimista, sugerindo uma relação positiva entre a rentabilidade das estratégias e o sentimento do investidor. O intercepto $\hat{\alpha}_i$ representa a parcela do retorno não explicada pelo sentimento nem pelos fatores de risco, e espera-se que não seja estatisticamente diferente de zero. O coeficiente $\hat{\beta}_{i}$ mede a intensidade da relação entre o sentimento do investidor e os retornos anormais ajustados pelo modelo de cinco fatores (FF5), sendo utilizado para testar a significância preditiva do sentimento. Um sinal positivo para $\hat{\beta}_i$ indica que períodos de sentimento elevado estão associados a maiores retornos das anomalias.
+
+<!--
+## Retorno das Anomalias e Incertezas {#RetAnomEpu}
+
+De modo semelhante ao desenvolvido para o sentimento do investidor, fez-se a análise da relação entre o retorno das anomalias e a incerteza, substituindo-se na Equação \@ref{sentAnom} o SIEF pela variável EPU. Assim, os retornos *long-short* mensais ($R_{i,t}$) da anomalias foram regredidas por Mínimos Quadrados Ordinários (MQO) contra o EPU, conforme Equação \@ref{epuAnom}.
+
+```{=tex}
+\vspace{-0.5cm}
+\begin{align}
+R_{i,t} = \hat{\nu}_{i} + \hat{\delta}_{i} EPU_{i,t} + \hat{\rho}_{i} FFT_{i,t} + \hat{\xi}_{i,t} \label{epuAnom} 
+\end{align}
+```
+
+
+Em que $R_{i,t} = R_{a,t} - R_{f,t}$ representa o retorno *long-short* da anomalia $i$ no mês $t$; $EPU_{i,t}$ é o índice de incerteza da política econômica no período $t$; $FFT_{i,t}$ corresponde ao retorno dos fatores de risco do modelo FF5; $\hat{\nu}_{i}$, $\hat{\delta}_{i}$ e $\hat{\rho}_{i}$ são os parâmetros estimados da regressão, e $\hat{\xi}_{i,t}$ é o termo de erro aleatório. Nesse modelo, espera-se que os interceptos $\hat{\nu}_{i}$ não sejam estatisticamente diferentes de zero e que o coeficiente $\hat{\delta}_{i}$ seja positivo, sugerindo que um aumento na incerteza da política econômica pode elevar os retornos futuros das anomalias.
+
+Como teste de robustez, investigou-se o papel moderador do EPU sobre o sentimento do investidor. O objetivo foi analisar de que forma o sentimento, ajustado pela incerteza da política econômica, influencia os retornos médios das anomalias. A Equação \@ref{modSentEpu} formaliza essa relação.
+
+
+```{=tex}
+\vspace{-0.5cm} 
+\begin{align} 
+R_{i,t} = \hat{\eta}_{i} + \hat{\tau}_{i} SIEF_{i,t} \cdot EPU_{i,t} + \hat{\psi}_{i} FFT_{i,t} + \varrho_{i} \label{modSentEpu}  
+\end{align}
+```
+
+
+Em que: $R_{i,t} = R_{a,t} - R_{f,t}$ é o retorno *long-short* da anomalia $i$ no mês $t$; $SIEF_{i,t} \cdot EPU_{i,t}$ é o efeito moderador da incerteza econômica sobre o sentimento no período $t$; $FFT_{i,t}$ corresponde aos retornos dos fatores do modelo FF5; $\hat{\eta}_{i}$, $\hat{\tau}_{i}$ e $\hat{\psi}_{i}$ são os coeficientes estimados da regressão, e $\hat{\varrho}_{i}$ é o termo de erro. Espera-se que o coeficiente $\hat{\tau}_{i}$ seja positivo e estatisticamente significativo, indicando que períodos de maior incerteza econômica amplificam o efeito do sentimento do investidor sobre os retornos das anomalias.
+
+-->
+
+
+# RESULTADOS E DISCUSSÕES
+
+A Tabela \@ref(tab:tabelaDesUni) apresenta a estatística descritiva dos retornos médios mensais de 47 anomalias no Brasil, Chile, Colômbia, México e Peru no período de 2010 a 2022. Com base em Hou et al. [-@hou2020], também foi analisado o desempenho das anomalias por categorias, considerando como significativas aquelas com estatística $t > 1,50$, conforme proposto por McLean e Pontiff [-@mclean2016].
+
+
+
+```{r tabelaDesUni, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F, cache=TRUE}
+# Primeira tabela da análise dos dados
+library(tidyverse)
+library(flextable)
+library(officer)
+
+
+# Carregar os dados e remover a coluna 'Country'
+dfDesc <- readRDS("DataBase/Data/Outputs/Tables/tab.descFactorsUnivFullWide.rds") 
+dfDesc[dfDesc[[1]] == "All", 1] <- "Geral"
+
+# Criar uma nova linha com "Classificação" na primeira coluna e NA nas demais
+nova_linha <- c("Classificação", rep(NA, ncol(dfDesc) - 1))
+
+# Inserir a nova linha na posição 3
+dfDesc <- rbind(dfDesc[1:2, ], nova_linha, dfDesc[3:nrow(dfDesc), ])
+
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplicar a função em todo o dataframe
+dfDesc[, -1] <- lapply(dfDesc[, -1], function(col) sapply(col, substituiPontoPorVirgula))
+
+
+# Ajustando a fórmula para o flextable
+ft <- flextable(dfDesc) %>%
+  theme_apa() %>%
+  bold(part = "header", bold = TRUE) %>% 
+  align(align = "left", part = "body") %>% 
+  font(i = NULL, j = NULL, "Times New Roman", part = "all") %>% 
+  width(width = 1.1) %>% 
+  align(align = "center", part = "header") %>% 
+  merge_h_range(i = 3, j1 = 1, j2 = 11, part = "body") %>% 
+  align(i = 3, align = "center", part = "body") %>% 
+  bold(i = 3, bold = TRUE) %>% 
+  set_caption("Retornos Médios Mensais de Anomalias Financeiras na América Latina (2010-2022)", align_with_table = FALSE) %>%
+  add_header_row(colwidths = c(1, 2, 2, 2, 2, 2), 
+                  values = c(" ", "Brasil", "Chile", "Colômbia", " México", "Peru")) %>%   align(j = 1, align = "center", part = "header") %>%
+  width(j = 1, width = 0.8) %>%  
+  width(j = 2:11, width = 0.5) %>% 
+  set_header_labels(
+    Category     = "Categoria",
+    NSig_Br    = "N (Sig)", Media_Br    = "R̄",
+    NSig_Cl    = "N (Sig)", Media_Cl    = "R̄",
+    NSig_Col   = "N (Sig)", Media_Col   = "R̄",
+    NSig_Mx    = "N (Sig)", Media_Mx    = "R̄",
+    NSig_Pe    = "N (Sig)", Media_Pe    = "R̄"
+  ) %>%
+  
+  add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta o retorno médio mensal de 47 anomalias financeiras no período de 2010 a 2022 para os países Brasil, Chile, Colômbia, México e Peru. Geral é o retorno médio das 47 anomalias. Classificações refere-se ao retorno das anomalias nas  categorias Valor x Crescimento, Investimento, Rentabilidade, Atritos Comerciais e Momento. N é número de anomalias; (Sig) são anomalias estatisticamente significativas. R̄ é o retorno médio, com a estatística t (em parênteses).", props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>%
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  fontsize(i = NULL, j = NULL, size = 11, part = "all")
+
+# Exibindo a tabela
+ft
+```
+
+Brasil (19) e Chile (15) apresentaram o maior número de anomalias significativas, embora com retornos médios negativos — Brasil (-0,3809%, t = -2,07) e Chile (-0,2238%, t = -2,07) —, sugerindo ausência de ganhos aos investidores e possíveis ineficiências de mercado. O Peru, com 14 anomalias significativas, registrou retorno médio praticamente nulo (0,0034%, t = 0,03) e estatisticamente irrelevante, indicando ausência de padrão de lucratividade. Esses achados estão em linha com a literatura internacional [@hou2020], que aponta que muitas anomalias não geram retornos economicamente relevantes e não atendem aos padrões atuais em finanças empíricas.
+
+Ao classificar as anomalias por categoria, observou-se heterogeneidade entre os países. Na dimensão Valor *versus* Crescimento, a maioria não apresentou significância estatística, indicando baixa robustez dessas estratégias na região. Brasil (0,1075%) e Colômbia (0,1542%) tiveram retornos positivos, mas estatisticamente irrelevantes. Já Chile (-0,2058%) e México (-0,1842%) registraram retornos negativos com significância de 10% e 5%, respectivamente, sugerindo possíveis perdas sistemáticas com estratégias de valor. Esses achados contrastam com Hou et al. [-@hou2020], que evidenciaram replicabilidade dessas anomalias nos EUA, sobretudo em retornos ponderados por valor.
+
+
+Na dimensão Investimento, Peru (0,4922%) e Chile (0,2078%) apresentaram retornos positivos e significativos, enquanto a Colômbia (-0,3489%) teve retorno negativo altamente significativo, indicando possíveis ineficiências. Brasil e México exibiram retornos negativos ou nulos, sem significância estatística. Para as anomalias de Rentabilidade, os resultados foram majoritariamente negativos. O Brasil teve o pior desempenho (-1,0055%, significante a 1%), seguido por Chile (-0,2200%), também estatisticamente significativo. Colômbia, México e Peru não mostraram significância, sendo o México o único com retorno levemente positivo (0,0127%).
+
+Nas anomalias de Atritos Comerciais, os retornos foram inconsistentes e estatisticamente irrelevantes. Brasil (0,3388%), Colômbia (0,2162%) e Peru (0,0725%) registraram retornos positivos sem significância, enquanto Chile (-0,0250%) e México (-0,0100%) apresentaram retornos negativos, também sem relevância estatística. Esses resultados contrastam com Han e Shi [-@han2022a], que observaram retornos elevados na China, mas corroboram Hou et al. [-@hou2020], que apontaram baixa significância para a maioria das anomalias nessa categoria.
+
+
+Por fim, a categoria Momento apresentou os piores desempenhos, com retornos negativos em todos os países analisados. Destacam-se os mercados brasileiro (-1,5486%) e mexicano (-1,0429%), onde as perdas foram estatisticamente significativas a 1%, sugerindo que estratégias baseadas em tendências de preço não levaram a resultados consistentes. Os demais países também apresentaram retornos negativos significativos. Isso aponta a ineficácia das estratégias de momento no contexto latino-americano entre 2010 e 2022, corroborando os achados de Berggrun et al. [-@berggrun2020].
+
+Dessa forma, observou-se forte heterogeneidade no desempenho das anomalias financeiras na América Latina. O Brasil se destacou negativamente nas categorias de Rentabilidade e Momento, evidenciando a baixa eficácia dessas estratégias na região. Enquanto essas anomalias geram retornos positivos em mercados desenvolvidos, não mostraram a mesma efetividade nos países analisados. Isso pode refletir estruturas de mercado pouco diversificadas ou ilíquidas [@french2018], além de fragilidades na qualidade da informação contábil [@paulo2014accounting].
+
+
+## Retornos das Anomalias Ajustados aos Fatores de  Risco
+
+Os retornos anormais ajustados pelos fatores do modelo FF5 [@fama2015] foram estimados por meio dos alfas das regressões MQO, com estatísticas $t$ corrigidas pelo teste de Newey e West [-@newey1987]. As regressões foram aplicadas às estratégias long-short para todas as anomalias (Painel A) e para as estatisticamente significativas nos testes prévios (Painel B), conforme apresentado na Tabela \@ref(tab:tabAlfaRegGeral).
+
+```{r tabAlfaRegGeral, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F, cache=TRUE}
+
+options(encoding = "latin1")
+library(flextable)
+library(tidyverse)
+
+dfAnom <- readRDS("DataBase/Data/Outputs/Tables/tab.testRegAnomalyAll.rds")   
+
+# Remover a linha onde o valor da primeira coluna é "Pais"
+dfAnom <- dfAnom[dfAnom[[1]] != "Pais", ]
+dfAnom <- dfAnom[dfAnom[[1]] != "Modelo", ]
+
+dfAnom[dfAnom[[1]] == "R2", 1] <- "R²"
+
+
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplicar a função em todo o dataframe
+dfAnom[, -1] <- lapply(dfAnom[, -1], function(col) sapply(col, substituiPontoPorVirgula))
+
+
+
+# Criar a tabela com flextable
+ft <- flextable(dfAnom) %>%
+  set_caption("Retornos Anormais Ajustados ao Risco em Mercados da América Latina (2010-2022)", align_with_table = TRUE) %>%
+  bold(j = 1, bold = TRUE) %>%
+  bold(part = "header") %>%
+  fontsize(size = 10) %>%
+  theme_apa() %>%
+  add_header_row(colwidths = c(1, 5, 5), 
+                  values = c(" ", "Painel A: Todas as Anomalias", "Painel B: Anomalias Significativas")) %>% 
+   align(j = 1, align = "center", part = "header") %>%
+  width(width = 0.6) %>% 
+  set_header_labels(
+    Br_All    = "Br", Br_Sig    = "Br",
+    Cl_All    = "Cl", Cl_Sig    = "Cl",
+    Col_All   = "Col", Col_Sig   = "Col",
+    Mx_All    = "Mx", Mx_Sig    = "Mx",
+    Pe_All    = "Pe", Pe_Sig    = "Pe",
+    Val     = " "
+  ) %>%
+  align(j = 1, align = "left", part = "all") %>%
+ 
+  fontsize(size = 10) %>%
+  
+    add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta os retornos anormais ajustados ao risco para Brasil, Chile, Colômbia, México e Peru no período de 2010 a 2022. No Painel A, apresentam-se os coefientes da regressão e a estatítica t (em parêntese) para todas as anomalias da amostra. No Painel B, os coeficentes das regressõespara as anomalias significativas. Os símbolos *, ** e *** indicam significância estatística a 10%, 5% e 1%, respectivamente.", props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>%
+
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  align(i = NULL, j = 1, align = "left", part = "footer") %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+ft
+
+``` 
+
+No Brasil, o alfa médio para todas as anomalias foi de -0,0043 (p<0,01), caindo para -0,0067 (p<0,01) nas anomalias significativas, indicando uma redução após o ajuste pelos fatores de risco. No Chile, os alfas foram de -0,0045 e -0,0070 (ambos p<0,01), reforçando a falta de prêmio de risco. Na Colômbia, os alfas de -0,0007 e -0,0030 não foram significativos, sugerindo inconsistência nos retornos. No México, os alfas de -0,0017 e -0,0027 também não foram significativos, indicando que a seleção de anomalias não melhora os resultados. No Peru, o alfa variou de 0,0007 para -0,0027, ambos não significativos, sugerindo que anomalias promissoras não sustentam retornos anormais após o controle por risco.
+
+De maneira geral, os resultados indicam que as anomalias nos mercados latino-americanos não geraram retornos anormais positivos entre 2010 e 2022. Mesmo nas anomalias significativas, como no Brasil e Chile, o retorno anormal negativo foi intensificado após o ajuste por risco. Esses achados alinham-se com Berggrun et al. [-@berggrun2024], que destacaram a falta de significância estatística e econômica nas anomalias da região, e com Carvalho et al. [-@carvalho2021], que mostraram a limitação dos modelos de precificação na América Latina.
+
+
+## Sentimento do Investidor na América Latina \label{RetSent}
+
+Neste estudo, foi construído um índice de Sentimento do Investidor Específico da Firma (SIEF), conforme Seok et al. [-@seok2019; -@seok2019a] e Fu et al. [-@fu2021]. Para eliminar influências comuns do mercado, as proxies de sentimento foram ortogonalizadas por meio da regressão de cada componente sobre o excesso de retorno do mercado acionário local. Esse procedimento foi repetido com a inclusão do EPU como variável explicativa. Os resíduos dessas regressões foram definidos como o SIEF ortogonalizado. A Tabela \@ref(tab:tabDescSief) apresenta as estatísticas descritivas do SIEF para Brasil, Chile, Colômbia, México e Peru, no período de 2010 a 2022.
+
+
+```{r tabDescSief, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F, cache=TRUE}
+
+# Carregar pacotes necessários
+library(tidyverse)
+library(flextable)
+
+# Carregar os dados
+df <- readRDS("DataBase/Data/Outputs/Tables/tab.DescSief.rds") %>% 
+ select(Mean, Median, SD, Min, Max, CV) 
+
+# Definir os nomes das linhas
+paises <- c("Brasil", "Chile", "Colômbia", "México", "Peru",
+            "Brasil", "Chile", "Colômbia", "México", "Peru")
+df <- df %>%
+  mutate(País = paises) %>%
+  relocate(País) # Coloca a coluna País na primeira posição
+
+# Função para substituir ponto por vírgula em números
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+  
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplica a função apenas a partir da segunda coluna
+df[, 2:ncol(df)] <- lapply(df[, 2:ncol(df)], function(col) sapply(col, substituiPontoPorVirgula))
+
+# Adicione a linha de separação
+df <- add_row(df, País = "Painel A: SIEF sem ajuste ao EPU", Mean =  "", Median  = "",
+               SD = "", Min = "", Max = "", CV = "", .before = 1)
+
+# Adicione a linha de separação
+df <- add_row(df, País = "Painel B: SIEF ortogonalizado pelo EPU", Mean =  "", Median  = "",
+               SD = "", Min = "", Max = "", CV = "", .before = 7)
+ 
+# Criar a tabela no formato flextable
+dt_flex <- df %>%
+  flextable() %>%
+  set_header_labels(
+    `País` = "País",
+    Mean = "Média",
+    Median = "Mediana",
+    SD = "Desvio Padrão",
+    Min = "Mínimo",
+    Max = "Máximo",
+    CV = "Coef Variação"
+  ) %>% 
+  theme_apa() %>%
+  fontsize(size = 10) %>%
+  bold(part = "header") %>%
+  bold(j = 1) %>%
+  width(j = 1, width = 1) %>%
+  width(j = 2:7, width = 0.9) %>%
+  align(j = 1, align = "left", part = "all") %>%
+  set_caption("Estatísticas Descritivas do Sentimento do Investidor na América Latina 2010–2022", align_with_table = FALSE) %>%
+  merge_h_range(i = 1, j1 = 1, j2 = 7, part = "body") %>% 
+  merge_h_range(i = 7, j1 = 1, j2 = 7, part = "body") %>% 
+  align(i = 1, j = NULL, align = "center", part = "body") %>%
+  align(i = 7, j = NULL, align = "center", part = "body") %>%
+  
+  add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta a Média, Mediana, Desvio Padrão, Valor Mínimo, Valor Máximo e Coeficiente de Variação do Sentimento do Investidor Específico da Firma (SIEF) para o período 2010 a 2022. No Painel A, o SIEF foi ortogonalizado pelo excesso de retorno do mercado (MKT). No Painel B, o SIEF foi ortogonalizado pelo excesso de retorno do mercado (MKT) e pelo EPU." , props = fp_text_default(font.size = 10, font.family = "Times New Roman")))) %>%
+
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  align(i = NULL, j = 1, align = "left", part = "footer") %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+
+# Exibir a tabela
+dt_flex
+
+#
+
+
+```
+
+
+No Painel A, o mercado peruano apresentou a maior média para o SIEF (0,1989), indicando um sentimento otimista dos investidores nesse período. No entanto, após o ajuste pelo EPU (Painel B), a média tornou-se negativa (-0,0830), revelando indícios de que o otimismo anterior estava altamente correlacionado à incerteza. Esse padrão também foi observado no Brasil e no Chile, onde as médias reduziram-se significativamente com a retirada da influência do EPU sobre o sentimento. Na maioria dos países, a média e a mediana do SIEF tornaram-se menores ou até negativas no Painel B. Assim, há indícios de que o sentimento do investidor é fortemente influenciado por fatores políticos e macroeconômicos. Esses achados estão alinhados com Davidson [-@davidson2020], que destaca que, na América Latina, além de um efeito contágio entre os países, existem outros canais de transmissão macroeconômicos e de incertezas que desempenham um papel significativo durante períodos de crises na região.
+
+## Anomalias e Sentimento do Investidor na América Latina
+
+Após a análise descritiva do sentimento do investidor, testes econométricos foram realizados para verificar a influência do SIEF sobre o comportamento das anomalias nos mercados emergentes da América Latina. A Tabela \@ref(tab:tabRegSiefGeral) apresenta os coeficientes das regressões para todas as anomalias (Painel A) e para as anomalias estatisticamente significativas (Painel B), estimados por Mínimos Quadrados Ordinários (MQO), com erros robustos à correlação e heterocedasticidade, utilizando a matriz robusta de Newey e West [-@newey1987].
+
+
+```{r tabRegSiefGeral, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F, cache=TRUE}
+
+options(encoding = "latin1")
+library(flextable)
+library(tidyverse)
+
+dfAnom <- readRDS("DataBase/Data/Outputs/Tables/tab.testRegAnomSiefAll.rds")   
+
+# Remover a linha onde o valor da primeira coluna é "Pais"
+dfAnom <- dfAnom[dfAnom[[1]] != "Pais", ]
+dfAnom <- dfAnom[dfAnom[[1]] != "Modelo", ]
+
+dfAnom[dfAnom[[1]] == "R2", 1] <- "R²"
+
+
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplicar a função em todo o dataframe
+dfAnom[, -1] <- lapply(dfAnom[, -1], function(col) sapply(col, substituiPontoPorVirgula))
+
+
+
+# Criar a tabela com flextable
+ft <- flextable(dfAnom) %>%
+  set_caption("Relação entre SIEF e Anomalias de Mercado na América Latina (2010–2022).") %>%
+  bold(j = 1, bold = TRUE) %>%
+  bold(part = "header") %>%
+  fontsize(size = 10) %>%
+  theme_apa() %>%
+  add_header_row(colwidths = c(1, 5, 5), 
+                  values = c(" ", "Painel A: Todas as Anomalias", "Painel B: Anomalias Significativas")) %>% 
+   align(j = 1, align = "center", part = "header") %>%
+  width(width = 0.6) %>% 
+  set_header_labels(
+    Br_All    = "Br", Br_Sig    = "Br",
+    Cl_All    = "Cl", Cl_Sig    = "Cl",
+    Col_All   = "Col", Col_Sig   = "Col",
+    Mx_All    = "Mx", Mx_Sig    = "Mx",
+    Pe_All    = "Pe", Pe_Sig    = "Pe",
+    Val     = " "
+  ) %>%
+  align(j = 1, align = "left", part = "all") %>%
+ 
+  fontsize(size = 10) %>%
+  
+    add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta os coeficientes das regressões entre o SIEF e o desempenho das anomalias nos mercados da América Latina (2010–2022), incluindo alfas e fatores de risco (MKT, SMB, HML, RMW e CMA), com estatísticas t entre parênteses. O Painel A considera todas as anomalias; o Painel B, apenas as significativas. *, ** e *** indicam significância a 10%, 5% e 1%, respectivamente.", props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>%
+
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  align(i = NULL, j = 1, align = "left", part = "footer") %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+ft
+
+``` 
+
+
+No Painel A, observou-se um alfa negativo e significativo para o Brasil (-0,0032), enquanto nos demais países os alfas não diferiram de zero, indicando que, mesmo sem a filtragem por significância, as anomalias no Brasil não geraram retornos anormais positivos. O SIEF apresentou coeficientes negativos e significativos para Brasil (-0,0151) e México (-0,0107), sugerindo que o sentimento pessimista pressiona os preços para baixo, gerando retornos negativos. Nos outros países (Chile, Colômbia e Peru), o SIEF não teve efeito significativo sobre os retornos. Esses resultados são consistentes com as estatísticas do SIEF, que mostram médias positivas para Brasil (0,0189) e México (0,0044), mas valores mínimos negativos (Brasil: -3,29; México: -3,64) e desvio padrão elevado, indicando alta volatilidade. Esse padrão reforça a hipótese de que, em momentos de sentimento pessimista mais acentuado, os preços dos ativos são pressionados para baixo, gerando retornos anormais negativos, como demonstrado empiricamente por Fu et al. [@fu2021].
+
+Adicionalmente, os resultados alinham-se às proposições de Shleifer et al. [-@shleifer1990], segundo as quais os investidores tendem a reagir de forma exagerada a informações negativas devido a vieses cognitivos. Essa tendência pode ser ainda mais pronunciada em mercados emergentes, como o brasileiro, onde a elevada incerteza, a baixa liquidez e as restrições à arbitragem dificultam a correção eficiente de desvios de preço [@delong1990]. Nesse sentido, o sentimento pessimista atua como um determinante relevante dos retornos anormais, conforme sugerido por Baker e Wurgler [-@baker2006].
+
+No Painel B, os resultados indicam que, no Brasil, o alfa se tornou ainda mais negativo (-0,0084, p<0,01), sugerindo que as anomalias não geram retornos anormais positivos, mesmo após o controle pelo sentimento. No Chile (-0,0014), Colômbia (0,0004) e México (-0,0015), os alfas continuaram insignificantes, com variações no sinal. No Peru, o alfa virou positivo (0,0034, p<0,10), indicando retornos anormais após ajustes por risco. O SIEF manteve coeficiente negativo e significativo apenas para o Brasil (-0,0319), reforçando a relação entre sentimento pessimista e menores retornos. Nos outros países, o SIEF foi irrelevante.  Esses resultados são consistentes com Han et al. [-@han2022a], que destacam o impacto do sentimento nos retornos das anomalias. Zhang et al. [-@zhang2023] observam que, em mercados com restrições à venda a descoberto, o sentimento elevado amplia o spread das estratégias *long-short*, sugerindo sobrevalorização. Por outro lado, Xavier e Machado [-@xavier2017] indicam a falta de evidência sobre restrições de venda a descoberto, limitando a arbitragem e ampliando os efeitos do sentimento.
+
+Para os fatores de risco do modelo FF5, o fator de mercado (MKT), no Painel A, foi significativo apenas na Colômbia (0,0719), sugerindo que o risco de mercado ajuda a explicar os retornos anormais nesse país, mas não nos demais. O fator tamanho (SMB) foi relevante apenas no México (-0,1581), apontando que empresas menores podem apresentar desempenho inferior. O fator valor (HML) também se mostrou significativo no México (-0,1429) e na Colômbia (-0,0491). A rentabilidade (RMW) foi o fator mais consistentemente relevante, com coeficientes significativos em quatro países, reforçando seu papel na precificação de ativos, conforme discutido por Fama e French [@fama2015]. O fator investimento (CMA), por sua vez, apresentou relevância apenas no México (0,0543), sugerindo efeito limitado do investimento empresarial sobre os retornos anormais nos demais mercados analisados.
+
+Por fim, o baixo $R^2$ em ambos os painéis sugere que os fatores FF5, associados ao sentimento do investidor, explicam apenas uma fração dos retornos anormais, apontando para a possível influência de outros fatores. Entretanto, observa-se que o $R^2$ aumenta na maioria dos países ao passar do Painel A para o Painel B (por exemplo, no México, sobe de 0,0248 para 0,0252). Esse aumento indica que o modelo com os fatores tradicionais mais o SIEF explica melhor a variação dos retornos das anomalias filtradas por significância estatística. Portanto, reforçando as evidências de que, ao considerar apenas as anomalias mais robustas, a relação dos retornos anormais com os fatores tradicionais se torna mais evidente e o papel do sentimento específico da firma se intensifica, particularmente no Brasil.
+
+
+## Anomalias e Sentimento do Investidor Ajustado ao EPU
+
+A Tabela \@ref(tab:tabRegSiefSemEpu) apresenta os resultados da análise da relação entre o SIEF e o desempenho das anomalias nos mercados acionários da América Latina no período de 2010 a 2022. Nessa especificação, o SIEF foi previamente ortogonalizado em relação ao excesso de retorno do mercado (MKT) e ao índice de Incerteza de Política Econômica (EPU), com o objetivo de isolar a parcela do sentimento do investidor não explicada pelas variações na incerteza macroeconômica, permitindo, assim, uma avaliação mais precisa do impacto do sentimento sobre os retornos anormais.
+
+
+```{r tabRegSiefSemEpu, echo=FALSE, message=FALSE, results='asis', warning=FALSE, ft.arraystretch = 1, ft.align = "left", escape = F}
+
+options(encoding = "latin1")
+library(flextable)
+library(tidyverse)
+
+dfAnom <- readRDS("DataBase/Data/Outputs/Tables/tab.testRegAnomSiefSemEpuAll.rds")   
+
+# Remover a linha onde o valor da primeira coluna é "Pais"
+dfAnom <- dfAnom[dfAnom[[1]] != "Pais", ]
+dfAnom <- dfAnom[dfAnom[[1]] != "Modelo", ]
+
+dfAnom[dfAnom[[1]] == "R2", 1] <- "R²"
+
+
+substituiPontoPorVirgula <- function(x) {
+  if (is.na(x) || x == "") return(x)  # Retorna se for NA ou vazio
+
+  # Substitui o ponto por vírgula
+  gsub("\\.", ",", x)
+}
+
+# Aplicar a função em todo o dataframe
+dfAnom[, -1] <- lapply(dfAnom[, -1], function(col) sapply(col, substituiPontoPorVirgula))
+
+
+
+# Criar a tabela com flextable
+ft <- flextable(dfAnom) %>%
+  set_caption("Relação entre SIEF ajustado pelo EPU e Anomalias na América Latina (2010–2022)") %>%
+  bold(j = 1, bold = TRUE) %>%
+  bold(part = "header") %>%
+  fontsize(size = 10) %>%
+  theme_apa() %>%
+  add_header_row(colwidths = c(1, 5, 5), 
+                  values = c(" ", "Painel A: Todas as Anomalias", "Painel B: Anomalias Significativas")) %>% 
+   align(j = 1, align = "center", part = "header") %>%
+  width(width = 0.6) %>% 
+  set_header_labels(
+    Br_All    = "Br", Br_Sig    = "Br",
+    Cl_All    = "Cl", Cl_Sig    = "Cl",
+    Col_All   = "Col", Col_Sig   = "Col",
+    Mx_All    = "Mx", Mx_Sig    = "Mx",
+    Pe_All    = "Pe", Pe_Sig    = "Pe",
+    Val     = " "
+  ) %>%
+  align(j = 1, align = "left", part = "all") %>%
+ 
+  fontsize(size = 10) %>%
+  
+  add_footer_lines(values = as_paragraph(
+    as_b("Legenda: "),
+    as_chunk(" A tabela apresenta os coeficientes da regressão entre SIEF e o desempenho das anomalias nos mercados acionários da América Latina no período de 2010 a 2022. O SIEF foi ortogonalizado pelo excesso de retorno do mercado (MKT) e pela Incerteza da POlítica Econômica (EPU). São reportados os alfas (interceptos) e coeficientes dos fatores de risco tradicionais (MKT, SMB, HML, RMW e CMA) com a estatística t (em parêntese). No Painel A: consideram-se todas as anomalias da amostra. No Painel B, apresentam-se os coeficentes das regressõespara as anomalias significativas nesses países. Os símbolos *, ** e *** indicam significância estatística a 10%, 5% e 1%, respectivamente.", props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>%
+  add_footer_lines(values = as_paragraph(
+    as_b("Fonte: "),
+    as_chunk("Elaborado pelos autores.",
+              props = fp_text_default(font.size = 10, font.family = "Times New Roman"))
+  )) %>% 
+  align(i = NULL, j = 1, align = "left", part = "footer") %>% 
+  fontsize(size = 10, part = "header") %>% 
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "footer") 
+ft
+
+``` 
+
+
+Com a ortogonalização, os coeficientes do SIEF tornaram-se positivos e estatisticamente significativos na maioria dos países. Na Tabela \@ref(tab:tabRegSiefGeral), a maior parte dos coeficientes era negativa ou não significativa, mas agora passou a ser positiva e significativa, como no Brasil, Colômbia e México. Ao remover o componente do EPU, o sentimento dos investidores revelou uma relação positiva com os retornos das anomalias, capturando com mais precisão o otimismo ou pessimismo do investidor em relação ao mercado e influenciando os retornos das anomalias. No México, o coeficiente passou de -0,0107 para 0,0152, ambos significativos. Essa inversão sugere que o componente do SIEF não influenciado pela incerteza econômica está positivamente associado aos retornos, reforçando o papel do EPU como mediador do sentimento do investidor.
+
+Esses resultados alinham-se com Marschner e Ceretta [-@marschner2021], que mostram que o sentimento do investidor é afetado pela incerteza econômica. Adicionalmente, corrobora com Berardi [-@berardi2022], que teoricamente observou que os sentimentos são desencadeados por choques exógenos nas crenças, mas se alimentam da incerteza gerada por informações imperfeitas. Segundo a autora, quanto maior a incerteza, mais as expectativas dos investidores se desviam das estimativas ótimas baseadas em informações, amplificando os ruídos informacionais e impactando os preços dos ativos.
+
+Os demais coeficientes da regressão foram pouco impactados pela ortogonalização do SIEF. Os alfas e os fatores de risco (MKT, SMB, HML, RMW, CMA) mantiveram-se consistentes entre as duas análises, indicando que a retirada do componente de incerteza via EPU não afetou a estrutura do modelo. O fator SMB foi significativamente negativo no México e no Chile, apontando que, nesses mercados, empresas menores tendem a apresentar retornos inferiores. O HML permaneceu negativo no México, e o RMW teve sinal positivo em vários países. Isso sugere que os fatores continuam relevantes para explicar os retornos anômalos, mesmo após o ajuste no SIEF.
+
+Por fim, o baixo poder explicativo dos modelos ($R^2$) foi semelhante em ambas as análises, indicando que apenas uma pequena fração da variação dos retornos das anomalias é capturada. Isso sugere a influência de outros fatores, como variáveis macroeconômicas ou específicas de mercado, que não foram considerados nos modelos. No entanto, a ortogonalização do SIEF em relação ao EPU permitiu uma visão mais precisa do papel do sentimento do investidor, sem comprometer a estabilidade dos fatores tradicionais, destacando que a incerteza de política econômica é um componente relevante do SIEF.
+
+Portanto, diante desses resultados, obtêm-se evidências em favor da hipótese de que a incerteza de política econômica amplifica o impacto do sentimento do investidor nos retornos das anomalias de mercado em países emergentes da América Latina. Embora a magnitude do impacto tenha sido heterogênea entre os países, observou-se que o impacto da incerteza sobre o sentimento do investidor aumentou os retornos das anomalias nesses países. Assim, os indícios apontam que o "verdadeiro" impacto do sentimento sobre os retornos das anomalias estava sendo obscurecido pela incerteza da política econômica.
+
+
+# CONSIDERAÇÕES FINAIS
+
+Diante das evidências de que a Incerteza da Política Econômica (EPU) exerce forte influência sobre os mercados financeiros, intensificando o sentimento dos investidores e provocando desvios na precificação dos ativos, o objetivo deste estudo foi analisar a relação entre os retornos das anomalias, o sentimento do investidor e a incerteza econômica nos mercados emergentes da América Latina (Brasil, Chile, Colômbia, México e Peru) no período de 2010 a 2022.
+
+Os resultados indicam forte heterogeneidade entre os países, com predominância de retornos negativos ou estatisticamente irrelevantes, a depender da anomalia analisada. Das 47 anomalias estudadas, apenas 40% foram significativas no Brasil, 32% no Chile, 21% na Colômbia e no México, e 30% no Peru. Mesmo entre as anomalias significativas, os retornos ajustados pelo modelo FF5 permaneceram fracos, com alfas negativos no Brasil e no Chile. A inclusão do SIEF revelou impacto significativo apenas no Brasil, onde o sentimento pessimista reduziu ainda mais os retornos das anomalias. Nos demais países, o SIEF não teve efeito relevante. Após filtrar pelas anomalias significativas, o alfa brasileiro tornou-se ainda mais negativo, sugerindo que o sentimento exerce influência substancial sobre a rentabilidade dessas estratégias. Além disso, as anomalias mais robustas apresentaram maior poder explicativo ($R^2$) no modelo com o SIEF, especialmente no Brasil.
+
+A investigação da hipótese de que a incerteza econômica (EPU) amplifica o impacto do sentimento nos retornos das anomalias revelou que, ao remover a componente do EPU, os retornos anormais negativos associados a sentimentos pessimistas se tornaram positivos e significativos na maioria dos países. Esses achados confirmam a hipótese de que a incerteza amplifica o impacto do sentimento sobre os preços dos ativos, destacando a importância de considerar a incerteza ao avaliar o efeito do sentimento nos mercados latino-americanos.
+
+Esses resultados avançam a literatura de precificação de ativos ao propor uma abordagem inovadora que ajusta o índice de sentimento do investidor (SIEF) pela incerteza econômica (EPU), permitindo isolar o impacto "puro" do sentimento sobre os retornos anormais. A ortogonalização do SIEF representa um avanço em relação a estudos anteriores, como os de Stambaugh et al. [-@stambaugh2012], Xavier e Machado [-@xavier2017] e Machado e Medeiros [-@machado2014], ao incorporar explicitamente o papel mediador da incerteza política, um aspecto pouco explorado nos modelos tradicionais de sentimento.
+
+Do ponto de vista empírico, o SIEF, uma vez livre do componente EPU, mostrou relação positiva e significativa com os retornos das anomalias em diversos mercados latino-americanos, indicando que a incerteza distorce as expectativas dos agentes quanto a risco e retorno. Tal evidência é compatível com a teoria de Berardi (2022), segundo a qual o sentimento é alimentado pela incerteza informacional, afastando as decisões das estimativas racionais.
+
+Em termos práticos, os achados sugerem que investidores e analistas podem se beneficiar ao considerar a EPU como variável de controle no acompanhamento do sentimento, refinando a detecção de mispricings e oportunidades de arbitragem. Em ambientes de elevada incerteza — nos quais prevalecem vieses cognitivos e decisões irracionais [@barberis1998] —, essa estratégia pode aprimorar tanto a alocação de ativos quanto a gestão de riscos, como também defendem Pastor e Veronesi [-@pastor2012].
+
+Apesar das contribuições, o estudo enfrentou limitações devido à qualidade e disponibilidade de dados nos países emergentes da América Latina, o que pode comprometer a generalização dos resultados. O tamanho reduzido da amostra e a menor liquidez dos mercados locais acentuaram a heterogeneidade das evidências. Portanto, embora os resultados indiquem uma relação relevante entre sentimento, incerteza e retornos das anomalias, devem ser interpretados com cautela.
+
+Finalmente, os resultados sugerem que pesquisas futuras explorem aspectos da relação entre sentimento e incerteza, investigando períodos de crise e as interações não lineares entre as variáveis. Estudos comparativos entre regiões emergentes, como a América Latina, Sudeste Asiático e Europa Oriental, também podem verificar se o ajuste do sentimento pela incerteza é uma característica generalizável dos mercados emergentes.
+
+# REFERÊNCIAS

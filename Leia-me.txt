@@ -1,0 +1,15 @@
+
+#---------------ARTIGO 01 RESULTANTE DA TESE ------------------------
+
+TÍTULO: 
+O Retorno das Anomalias, Sentimento do Investidor e Incerteza: evidências de Países Emergentes
+
+
+IMPORTANTE: arquivo usado para apresentar o roteiro dos testes.
+
+
+
+#-----------------SEQUÊNCIA DOS CÓDIGOS-------------------#
+
+1. Importar as funções do contabilidados.R
+2. Importar base de dados 
