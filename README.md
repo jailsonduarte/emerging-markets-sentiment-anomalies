@@ -1,4 +1,4 @@
-# Emerging Markets Sentiment, Anomalies and Uncertainty Factors
+# Investor Sentiment, Macroeconomic Uncertainty, and the Pricing of Anomalies in Emerging Markets
 
 ## Overview
 
